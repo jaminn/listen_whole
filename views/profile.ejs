@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+    <h1>
+      nickname :<%=pf.nickname%>
+    </h1>
+
+    <h1>
+      Level :<%=pf.Level%>
+    </h1>
+
+    <h1>
+      score :<%=pf.score%>
+      <%if(pf.score == 0){%>
+        저런 어서플레이해서 스코어를 올려보세요
+      <%}%>
+    </h1>
+
+    <a href="/logout">로그아웃</a>
+</body>
+
+</html>

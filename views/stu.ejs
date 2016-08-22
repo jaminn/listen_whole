@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>List_EN</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="/javascripts/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/srt__.js"></script>
+    <script language="javascript" type="text/javascript" src="/javascripts/asdf_main.js"></script>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            margin-top: 50px;
+        }
+        /* Remove the navbar's default margin-bottom and rounded borders */
+
+        .myHide {
+            visibility: hidden;
+        }
+
+        #exam {
+            margin-top: 10px;
+            width: 1150px;
+            height: 700px;
+            background-color: #FFF;
+            border-radius: 20px;
+            box-shadow: 0 0 5px 0 #BDBDBD;
+        }
+
+        .gl {
+            font-size: 17px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            border-bottom: 3px solid #AAA;
+            padding-bottom: 6px;
+        }
+
+        @media (min-width: 1024px) {
+            #well {
+                min-height: 20px;
+                padding: 4% 6% 5% 6%;
+                margin: 10px 160px;
+                background-color: transparent;;
+                border-right: 5px solid #c8c8c8;
+                border-left: 5px solid #c8c8c8;
+            }
+            #pc {
+              margin-left: -13%;
+            }
+            #pcy{
+              margin: -15%;
+              padding: 20%;
+                      }
+            section {
+              margin-top:-5%;
+              margin-bottom: :-5%;
+            }
+
+        }
+
+
+        @media (max-width: 767px) {
+            .gl {
+                font-size: 17px;
+                font-weight: bold;
+                text-decoration: none;
+                text-align: center;
+                border-bottom: 3px solid #AAA;
+                padding-bottom: 6px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                <a class="navbar-brand3" href="/" class="pull-left"><img src="../images/Blogo.png" height="30px" /></a> <a class="navbar-brand2" href="#" id="login"><span class="glyphicon glyphicon-log-in"></span> <%=name%></a> </div>
+            <div class="collapse navbar-collapse " id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="/media" id="ov"><i class="glyphicon glyphicon-home"></i> &nbsp;홈</a></li>
+                    <li><a href="/media" id="ov"><i class="glyphicon glyphicon-time"></i> &nbsp;기록</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <article>
+        <section class="center-block">
+            <div id="well" class="text-center center-block">
+                <div>
+                    <div class="text-left">
+                        <div id="pcy">
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <div id="player" class="embed-responsive-item"></div>
+                            </div>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                <!--ejs-->
+                            </div>
+                        </div>
+                        <div class="container text-center center-block" style="margin-top:5px;">
+                            <h4 id="pc">가사를 듣고 순서에 맞게 클릭하세요</h4> </div>
+                        <div class="well well-lg text-center" style="margin:1px 2px;padding:10px 15px;background-color:transparent;border:0 solid transparent;"><span class="gl" id="ad"></span></div>
+                        <button type="button" id="starter" class="myHide btn btn-warning" style="font-weight:bold;font-size:20px;margin: 30px auto; padding:20px 50px;border-radius:10px;" onclick="lets_start();">시작!</button>
+                    </div>
+                </div>
+                <div style="margin:10px; text-align: justify">
+                    <div class="btn-group" id="buttonP"> </div>
+                </div>
+            </div>
+        </section>
+    </article>
+    <!--결과 화면-->
+    <div class="modal fade bs-example-modal-sm" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">결과 화면</h4> </div>
+                <div class="modal-body center-block text-center"> <img src="../images/Levelcleared.png" height="30px" style="">
+                    <div class="progress" style="margin-top:20px;margin-bottom:0px">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                            <!--ejs-->
+                        </div>
+                    </div>
+                    <div style="color:#1976D2;font-size:15px;">exp</div>
+                </div>
+                <div class="modal-footer"> <a href="/media" type="button" class="btn" style="display: inline-block;padding: 6px 45px;background:#4275ff;color:#fff;border:1px solid #4275ff;">확인</a> </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $('#myModal3').on('shown.bs.modal', function () {
+        $('#myInput').focus()
+    })
+</script>
+
+</html>

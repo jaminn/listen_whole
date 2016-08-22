@@ -1,0 +1,17 @@
+{
+  "root": "/server/node/jplisten/.forever",
+  "pidPath": "/server/node/jplisten/.forever/pids",
+  "sockPath": "/server/node/jplisten/.forever/sock",
+  "loglength": 100,
+  "logstream": false,
+  "columns": [
+    "uid",
+    "command",
+    "script",
+    "forever",
+    "pid",
+    "id",
+    "logfile",
+    "uptime"
+  ]
+}

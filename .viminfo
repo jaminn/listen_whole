@@ -1,0 +1,335 @@
+# 이 viminfo 파일은 빔이 만든 것입니다 Vim 7.4.
+# 조심만 한다면 고칠 수도 있습니다!
+
+# 이 파일이 저장되었을 때의 'encoding'의 값
+*encoding=utf-8
+
+
+# hlsearch on (H) or off (h):
+~H
+# 마지막으로 바꾼 문자열:
+$
+
+# 명령 줄 히스토리 (새것부터 오래된 것 순):
+:q
+:wq
+:w
+:Wq
+:Q
+:q!
+:set nu
+
+# 찾을 문자열 히스토리 (새것부터 오래된 것 순):
+
+# 표현 히스토리 (새것부터 오래된 것 순):
+
+# 입력 줄 히스토리 (새것부터 오래된 것 순):
+
+# 입력 줄 히스토리 (새것부터 오래된 것 순):
+
+# 레지스터:
+"0	LINE	0
+	    var name = req.params['name'];
+"1	LINE	0
+	/* GET home page. */
+	
+"2	LINE	0
+	});
+"3	LINE	0
+	  }
+"4	LINE	0
+	    res.redirect('/');
+"5	LINE	0
+	  }else{
+"6	LINE	0
+	    res.render('multi', {name:req.session.nickname});
+"7	LINE	0
+	  if(req.session.logined){
+"8	LINE	0
+	router.get('/', function(req, res, next) {
+"9	LINE	0
+	  }
+""-	CHAR	0
+	c
+
+# 파일 마크:
+'0  106  0  ~/views/multi_away.ejs
+'1  12  35  ~/views/stu.ejs
+'2  101  0  ~/views/stu.ejs
+'3  22  0  ~/views/multi.ejs
+'4  7  36  ~/routes/multi.js
+'5  4  4  ~/routes/multi.js
+'6  5  3  ~/routes/multi.js
+'7  8  2  ~/routes/multi.js
+'8  27  0  ~/views/multi.ejs
+'9  4  0  ~/routes/multi.js
+
+# 점프목록 (새것이 먼저):
+-'  106  0  ~/views/multi_away.ejs
+-'  1  0  ~/views/multi_away.ejs
+-'  12  35  ~/views/stu.ejs
+-'  101  12  ~/views/stu.ejs
+-'  1  0  ~/views/stu.ejs
+-'  22  0  ~/views/multi.ejs
+-'  27  0  ~/views/multi.ejs
+-'  7  36  ~/routes/multi.js
+-'  4  0  ~/routes/multi.js
+-'  5  4  ~/routes/multi.js
+-'  8  0  ~/routes/multi.js
+-'  1  0  ~/views/multi.ejs
+-'  1  0  ~/routes/multi.js
+-'  7  5  ~/routes/users.js
+-'  42  5  ~/routes/users.js
+-'  86  0  ~/app.js
+-'  1  0  ~/app.js
+-'  1  0  ~/routes/ap
+-'  13  2  ~/routes/change.js
+-'  1  0  ~/routes/change.js
+-'  2  5  ~/views/upload.ejs
+-'  14  0  ~/views/upload.ejs
+-'  7  0  ~/views
+-'  1  0  ~/views/upload.ejs
+-'  99  0  ~/public/javascripts/stu.ejs
+-'  1  0  ~/public/javascripts/stu.ejs
+-'  21  0  ~/index.html
+-'  22  0  ~/index.html
+-'  13  18  ~/routes/upload.js
+-'  14  1  ~/routes/upload.js
+-'  1  0  ~/routes/upload.js
+-'  1  0  ~/views/ap
+-'  6  3  ~/routes/logout.js
+-'  7  6  ~/routes/logout.js
+-'  1  0  ~/routes/logout.js
+-'  13  18  ~/public/javascripts/login.js
+-'  1  0  ~/public/javascripts/login.js
+-'  6  19  ~/routes/profile.js
+-'  7  0  ~/routes/profile.js
+-'  1  0  ~/routes/profile.js
+-'  4  0  ~/routes/users.js
+-'  1  0  ~/routes/users.js
+-'  15  0  /server/node/ftest/socket.html
+-'  1  0  /server/node/ftest/socket.html
+-'  1  0  /server/node/ftest/socket.
+-'  19  0  /server/node/ftest/atest.js
+-'  1  0  /server/node/ftest/atest.js
+-'  6  1  ~/views/lrc.ejs
+-'  17  0  ~/views/lrc.ejs
+-'  1  0  ~/index.html
+-'  17  8  ~/views/lrc.jade
+-'  2  0  ~/views/lrc.jade
+-'  1  0  ~/views/lrc.jade
+-'  77  24  ~/views/index.ejs
+-'  1  0  ~/views/index.ejs
+-'  229  8  ~/public/javascripts/main.js
+-'  1  8  ~/public/javascripts/main.js
+-'  9  0  ~/routes/index.js
+-'  7  2  ~/routes/index.js
+-'  6  2  ~/routes/index.js
+-'  8  0  ~/routes/index.js
+-'  1  0  ~/routes/index.js
+-'  5  10  ~/uploaded/kanji_01. いかないで.lrc
+-'  7  0  ~/uploaded/kanji_01. いかないで.lrc
+-'  16  16  ~/uploaded/01. いかないで.lrc
+-'  13  0  ~/uploaded/01. いかないで.lrc
+-'  3  0  ~/uploaded/kanji_01. いかないで.lrc
+-'  9  0  ~/uploaded/01. いかないで.lrc
+-'  1  0  ~/uploaded/01. いかないで.lrc
+-'  1  0  ~/uploaded/kanji_01. いかないで.lrc
+-'  4  0  ~/uploaded/kanji_05. 위를보고걷자.lrc
+-'  5  0  ~/uploaded/kanji_05. 위를보고걷자.lrc
+-'  14  0  ~/uploaded/kanji_03. 불꽃의 동.lrc
+-'  1  0  ~/uploaded/kanji_03. 불꽃의 동.lrc
+-'  1  0  ~/uploaded/kanji_03. 불꽃의 동.
+-'  5  0  ~/uploaded/07. Payment.lrc
+-'  1  0  ~/uploaded/07. Payment.lrc
+-'  11  0  ~/uploaded/pronun_07. Payment.lrc
+-'  1  0  ~/uploaded/pronun_07. Payment.lrc
+-'  1  0  ~/uploaded/pronun_0_07. Payment.lrc
+-'  3  0  ~/uploaded/kor_07. Payment.lrc
+-'  1  0  ~/uploaded/kor_07. Payment.lrc
+-'  1  0  ~/uploaded/kor_07. Payment.
+-'  6  0  ~/uploaded/kanji_07. Payment.lrc
+-'  1  0  ~/uploaded/kanji_07. Payment.lrc
+-'  1  0  ~/uploaded/kanji_07. Payment.
+-'  1  0  ~/uploaded/kanji_
+-'  8  0  ~/uploaded/kanji_08. いかないで.lrc
+-'  1  0  ~/uploaded/kanji_08. いかないで.lrc
+-'  1  0  ~/uploaded/kanji_05. 위를보고걷자.lrc
+-'  23  0  ~/uploaded/05. 위를보고걷자.lrc
+-'  7  0  ~/uploaded/05. 위를보고걷자.lrc
+-'  1  0  ~/uploaded/05. 위를보고걷자.lrc
+-'  45  0  ~/app.js
+-'  66  0  ~/app.js
+-'  23  0  ~/uploaded/05. 위를보고걷자.lrc
+-'  7  0  ~/uploaded/05. 위를보고걷자.lrc
+-'  1  0  ~/uploaded/05. 위를보고걷자.lrc
+-'  86  0  ~/app.js
+
+# 파일내의 마크 히스토리 (새것부터 오래된 순):
+
+> ~/views/multi_away.ejs
+	"	106	0
+
+> ~/views/stu.ejs
+	"	12	35
+	^	12	36
+	.	12	35
+	+	8	17
+	+	9	33
+	+	10	17
+	+	11	17
+	+	12	35
+
+> ~/views/multi.ejs
+	"	22	0
+
+> ~/routes/multi.js
+	"	7	36
+	^	7	37
+	.	7	36
+	+	4	0
+	+	8	0
+	+	4	17
+	+	7	0
+	+	8	0
+	+	7	27
+	+	7	0
+	+	4	47
+	+	7	0
+	+	4	41
+	+	5	31
+	+	7	33
+	+	7	30
+	+	4	22
+	+	5	11
+	+	6	28
+	+	7	36
+
+> ~/routes/users.js
+	"	7	5
+	^	11	6
+	.	43	5
+	+	4	31
+	+	43	11
+	+	5	6
+	+	6	6
+	+	7	6
+	+	8	6
+	+	9	6
+	+	10	5
+	+	11	5
+	+	12	5
+	+	13	5
+	+	14	5
+	+	15	5
+	+	16	5
+	+	17	5
+	+	18	5
+	+	19	5
+	+	20	5
+	+	21	5
+	+	22	5
+	+	23	5
+	+	25	5
+	+	24	5
+	+	25	5
+	+	26	5
+	+	27	5
+	+	28	5
+	+	29	5
+	+	30	5
+	+	29	5
+	+	31	5
+	+	32	5
+	+	33	5
+	+	34	5
+	+	35	5
+	+	36	5
+	+	37	5
+	+	38	5
+	+	39	5
+	+	40	5
+	+	41	5
+	+	42	5
+	+	43	5
+
+> ~/app.js
+	"	86	0
+	.	85	0
+	+	13	0
+	+	19	0
+	+	20	0
+	+	85	0
+
+> ~/routes/ap
+	"	1	0
+
+> ~/routes/change.js
+	"	13	2
+
+> ~/views/upload.ejs
+	"	2	5
+	^	14	7
+	.	14	0
+	+	14	0
+
+> ~/public/javascripts/stu.ejs
+	"	99	0
+
+> ~/index.html
+	"	21	0
+
+> ~/routes/upload.js
+	"	13	18
+	^	13	19
+	.	13	18
+	+	13	34
+	+	15	2
+	+	14	18
+	+	13	18
+
+> ~/views/ap
+	"	1	0
+
+> ~/routes/logout.js
+	"	6	3
+	.	6	0
+	+	7	0
+	+	8	0
+	+	7	0
+	+	9	0
+	+	7	50
+	+	5	0
+	+	7	0
+	+	6	0
+
+> ~/public/javascripts/login.js
+	"	13	18
+	^	13	19
+	.	13	18
+	+	13	18
+
+> ~/routes/profile.js
+	"	6	19
+	^	6	20
+	.	6	19
+	+	6	19
+
+> /server/node/ftest/socket.html
+	"	15	0
+
+> /server/node/ftest/socket.
+	"	1	0
+	^	1	0
+
+> /server/node/ftest/atest.js
+	"	19	0
+
+> ~/views/lrc.ejs
+	"	6	1
+	^	6	2
+	.	1	1
+	+	17	0
+	+	16	0
+	+	13	0
+	+	1	1

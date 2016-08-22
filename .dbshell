@@ -1,0 +1,22 @@
+use listendgb
+use listendb
+db.vids.insert({vid:""});
+use listendb
+db.vids.insert({vid:"XOhLf-6EwEg", tag: "ani"});
+db.vids.insert({vid:"iG9CE55wbtY", tag: "ted"});
+db.vids.insert({vid:"LmxlcJFTaYU", tag: "ted"});
+db.vids.drop()
+db.vids.insert({name:"Christmas with the Villagers",vid:"XOhLf-6EwEg", tag: "ani"});
+db.vids.drop()
+db.vids.insert({name:"Christmas with the Villagers",vid:"XOhLf-6EwEg", tag: "ani", intro:"마인크레프트 에니메이션입니다."});
+db.vids.drop()
+db.vids.insert({name:"Christmas with the Villagers",vid:"XOhLf-6EwEg", tag: "ani", intro:"마인크레프트 에니메이션입니다."});
+db.vid.find()
+db.vids.find()
+db.vids.insert({name:"Do_Schools_kill_creativity",vid:"iG9CE55wbtY", tag: "ted", intro: "학교가 창의력을 죽이는가?에대한 ted 동영상"});
+db.vids.insert({name:"how_do_you_know",vid:"LmxlcJFTaYU", tag: "ani", intro:"마인크레프트 에니메이션입니다."});
+db.vids.drop()
+db.vids.insert({name:"Do_Schools_kill_creativity",vid:"iG9CE55wbtY", tag: "ted", intro: "학교가 창의력을 죽이는가?에대한 ted 동영상"});
+db.vids.drop()
+db.vids.insert({name:"Christmas with the Villagers (Minecraft Animation)",vid:"XOhLf-6EwEg", tag: "ani", intro:"마인크레프트 에니메이션입니다."});
+db.vids.insert({name:"Do Schools Kill Creativity - Sir Ken Robinson - TED Talks",vid:"iG9CE55wbtY", tag: "ted", intro: "학교가 창의력을 죽이는가?에대한 ted 동영상"});
