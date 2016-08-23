@@ -1,5 +1,5 @@
         var tag = document.createElement('script');
-        tag.src = "http://www.youtube.com/iframe_api";
+        tag.src = "//www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         var srtF = ""; //전문(원문) 텍스트 파일
@@ -108,7 +108,7 @@
         }
 
         function onPlayerReady(event) {
-            var request = $.get("static/sub/" + p["vid"] + ".srt");
+            var request = $.get("/" + p["vid"] + ".srt");
             request.success(function (data) {
                 srtF = data;
                 parsed_srt = from_srt(srtF, true);
