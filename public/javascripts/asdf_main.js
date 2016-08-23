@@ -88,7 +88,7 @@
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
                 playerVars: {
-                    controls: 2 //개발시에는 controls: 2, 실사용시에는 controls: 0 
+                    controls: 0 //개발시에는 controls: 2, 실사용시에는 controls: 0 
                         
                     , cc_load_policy: 1
                     , rel: 0
