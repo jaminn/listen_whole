@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
     <script src="/javascripts/bootstrap.min.js"></script>
     <script src="/javascripts/srt__.js"></script>
-    <script language="javascript" type="text/javascript" src="/javascripts/multi_home.js"></script>
     <script>
         var socket = io.connect();
         var room = "<%=room%>"
@@ -448,6 +447,8 @@
                 $("#textP").append(unshuffled[howMany_del] + " ");
                 howMany_del++;
                 if (unshuffled.length == howMany_del) { //전부 맞첬을 경우
+                    var score = parseInt($("#away").html());
+                    socket.emit('score', "home", ++score, quiz_counter);
                     $("#myprogress").addClass("blinkGreen");
                     setTimeout(function () {
                         $("#myprogress").removeClass("blinkGreen");
