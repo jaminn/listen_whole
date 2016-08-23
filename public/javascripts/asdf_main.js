@@ -325,7 +325,7 @@
         }
 
         function getFuture() {
-            if (quiz_counter <= srtLast) {
+            if (quiz_counter < srtLast) {
                 return parsed_srt[quiz_counter + 1].endTime / 1000;
             }
             else {
@@ -354,7 +354,7 @@
                     }
                 }
                 if (getFuture() < How_video_pasted) { //진행시간이 미래 보다 크면
-                    if (quiz_counter < srtLast) {
+                    if (quiz_counter < srtLast - 1 ) {
                         console.log(quiz_counter + ": ViewNxt");
                         nxtWhere(); //카운터를 늘린다.
                     }

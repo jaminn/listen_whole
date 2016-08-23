@@ -167,8 +167,8 @@
         <div class="container-fluid">
             <div style="color: transparent;" class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-                <%if(typeof(isLogined) == "undefined"){%> <a class="navbar-brand2" style="padding-left: 0px;padding-right: 0px;padding-bottom: 0px;" href="/login" id="login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
-                    <%} else if(isLogined){%> <a href="#" style="padding-top: 15px;padding-left: 0px;padding-right: 0px;padding-bottom: 0px;" class="navbar-brand2" id="login" data-placement="left" data-toggle="popover" title='<button type="button" style="font-size:12px;background-color:transparent;border:none" data-toggle="modal" data-target=".bs-example-modal-sm">
+                <%if(typeof(isLogined) == "undefined"){%> <a class="navbar-brand2" style="padding-left: 0px;padding-right: 15px;padding-bottom: 0px;" href="/login" id="login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                    <%} else if(isLogined){%> <a href="#" style="padding-left: 0px;padding-right: 15px;padding-bottom: 0px;" class="navbar-brand2" id="login" data-placement="left" data-toggle="popover" title='<button type="button" style="font-size:12px;background-color:transparent;border:none" data-toggle="modal" data-target=".bs-example-modal-sm">
   <span class="glyphicon glyphicon-user"></span> 프로필 설정
 </button>' data-delay='{ "hide": 3000 }'><span class="glyphicon glyphicon-log-in"></span> <%=name%></a>'
                         <%}else{%> <a class="navbar-brand2" href="/login" id="login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
