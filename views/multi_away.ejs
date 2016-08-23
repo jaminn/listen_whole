@@ -18,6 +18,7 @@
         socket.on('home', function (score, cnt) {
             $('#home').html(score);
             quiz_counter = cnt;
+            console.log("get cnt:"+cnt+" from home");
             player.seekTo(getPastStart());
             player.playVideo();
             allRightBool = true;

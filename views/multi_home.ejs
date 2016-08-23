@@ -25,6 +25,7 @@
         });
         socket.on('away', function (score, cnt) {
             $('#away').html(score);
+            console.log("get cnt:"+cnt+" from away");
             quiz_counter = cnt;
             player.seekTo(getPastStart());
             player.playVideo();
