@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
     <script src="/javascripts/bootstrap.min.js"></script>
     <script src="/javascripts/srt__.js"></script>
+    <script language="javascript" type="text/javascript" src="/javascripts/multi_home.js"></script>
     <script>
         var socket = io.connect();
         var room = "<%=room%>"
@@ -18,7 +19,6 @@
         socket.on('home', function (score, cnt) {
             $('#home').html(score);
             quiz_counter = cnt;
-            console.log("get cnt:"+cnt+" from home");
             player.seekTo(getPastStart());
             player.playVideo();
             allRightBool = true;
@@ -42,7 +42,6 @@
         var unshuffled; //셔플 안된 단어들
         var howMany_del = 0; //몇번이나 지웠나?
         var allRightBool = false; //전부 맞쳤을 경우
-        var replayBool = false;
         var playByButton = false; //스타트 버튼으로 재생했는가
         var HowMany_wrongs = 0; //몇번이나 틀렸나?
         var wrongsCnt = 0;
@@ -53,6 +52,7 @@
         var srtLast = 0; //srt파싱된것의 마지막 번호
         var stop4quiz = false;
         var player;
+        var alpha = 0;
         $(document).ready(function () {
             console.log("page ready!");
             //document.getElementById('player').style.pointerEvents = 'none'; //실사용시 add this line
@@ -156,14 +156,14 @@
             request.fail(function () {
                 console.log("자막을 가져오지 못함(자기 컴)");
                 $.ajax({
-                    url: 'http://video.google.com/timedtext?lang=en&v=' + p['vid']
+                    url: '//video.google.com/timedtext?lang=en&v=' + p['vid']
                     , success: function (data) {
                         try {
                             getSubTry(data, event);
                         }
                         catch (e) {
                             $.ajax({
-                                url: 'http://video.google.com/timedtext?lang=en-GB&v=' + p['vid']
+                                url: '//video.google.com/timedtext?lang=en-GB&v=' + p['vid']
                                 , success: function (data) {
                                     try {
                                         getSubTry(data, event);
@@ -207,9 +207,6 @@
                 }
                 console.log('--playing--');
                 stop4quiz = false;
-                setTimeout(function () {
-                    replayBool = false;
-                }, 3000);
                 my_timer = setInterval(check_where, 5);
                 $("#buttonP").html(""); //버튼 초기화
                 //$("#textP").html("");  //문장 초기화
@@ -284,7 +281,6 @@
                 console.log("you pressed 37(<-) left key");
                 if (quiz_counter !== 0) {
                     clearInterval(my_timer);
-                    replayBool = false;
                     player.seekTo(getPastStart());
                     prvWhere();
                     player.playVideo();
@@ -294,7 +290,6 @@
                 console.log("you pressed 39(->) right key");
                 if (quiz_counter < srtLast) {
                     clearInterval(my_timer);
-                    replayBool = false;
                     if (!stop4quiz) {
                         if (parsed_srt[0].startTime / 1000 > player.getCurrentTime().toFixed(2)) {
                             player.seekTo(getNowStart());
@@ -381,7 +376,7 @@
             if (!allRightBool) {
                 if (getPast() > How_video_pasted) { //진행시간이 과거 보다 작으면
                     if (quiz_counter > 0) {
-                        if (!replayBool && !allRightBool) {
+                        if (!allRightBool) {
                             console.log(quiz_counter + ": ViewPrv");
                             prvWhere(); //카운터를 줄인다.
                         }
@@ -396,7 +391,6 @@
                 else {
                     if (getNow() <= How_video_pasted && ("" != wordOnly(replaces(parsed_srt[quiz_counter].text)))) { //진행시간이 미래 보다 작고, 현재보다 크면
                         console.log("진행 현재보다 큼(멈춤)");
-                        replayBool = false;
                         stop4quiz = true;
                         $("#buttonP").html("");
                         player.pauseVideo();
@@ -427,8 +421,7 @@
         function replay() {
             console.log(quiz_counter + ":replay가 불려짐");
             prvWhere();
-            player.seekTo(getNowStart() - 0.1);
-            replayBool = true;
+            player.seekTo(getNowStart() - alpha);
             player.playVideo();
             HowMany_wrongs = 0;
         }
@@ -448,13 +441,11 @@
                 $("#textP").append(unshuffled[howMany_del] + " ");
                 howMany_del++;
                 if (unshuffled.length == howMany_del) { //전부 맞첬을 경우
-                    var score = parseInt($("#away").html());
-                    socket.emit('score', "home", ++score, quiz_counter);
                     $("#myprogress").addClass("blinkGreen");
                     setTimeout(function () {
                         $("#myprogress").removeClass("blinkGreen");
                     }, 1000);
-                    player.seekTo(getPastStart() - 0.1);
+                    player.seekTo(getPastStart() - alpha);
                     player.playVideo();
                     allRightBool = true;
                     howMany_del = 0;
