@@ -401,7 +401,7 @@
                         });
                         SuffButton = shuffle(SuffButton);
                         [0, 1, 2, 3].forEach(function (my_x) {
-                            $("#buttonP").append('<div class="textboxWidth" style=" float: left;"><button id=b' + my_x + ' class="btn btn-primary btn-lg center-block" style="color:#000;font-size:17px;position: relative; display: block; height:80px;width:85%; padding:0; margin:0 auto;" onclick="my_dis(this)">' + wordOnly(SuffButton[my_x]) + "</button></div>");
+                            $("#buttonP").append('<div class="textboxWidth" style=" float: left;"><button id=b' + my_x + ' class="btn btn-primary btn-lg center-block" style="background-color:#fff;color:#000;font-size:17px;position: relative; display: block; height:80px;width:85%; padding:0; margin:0 auto;" onclick="my_dis(this)">' + wordOnly(SuffButton[my_x]) + "</button></div>");
                         });
                         $("#textP").html("");
                         nxtWhere();
@@ -434,7 +434,7 @@
                 });
                 SuffButton = shuffle(SuffButton);
                 [0, 1, 2, 3].forEach(function (my_x) {
-                    $("#buttonP").append('<div class="textboxWidth" style="float: left;"><button id=b' + my_x + ' class="btn btn-primary btn-lg center-block" style="color:#000;font-size:17px;position: relative; display: block; height:80px;width: 85%;padding: 0; margin:0 auto;" onclick="my_dis(this)">' + wordOnly(SuffButton[my_x]) + "</button></div>");
+                    $("#buttonP").append('<div class="textboxWidth" style="float: left;"><button id=b' + my_x + ' class="btn btn-primary btn-lg center-block" style="background-color:#fff;color:#000;font-size:17px;position: relative; display: block; height:80px;width: 85%;padding: 0; margin:0 auto;" onclick="my_dis(this)">' + wordOnly(SuffButton[my_x]) + "</button></div>");
                 });
                 //$("#textP").append(unshuffled[howMany_del]);
                 $("#textP").append(unshuffled[howMany_del] + " ");
@@ -599,7 +599,7 @@
                         <div class="progress" style="height: 10px; margin-bottom:10px;">
                             <div id="myprogress" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"> </div>
                         </div>
-                        <div class="well well-lg text-center" style="margin:10px 0;padding-top: 12px;background-color:transparent;height: 58px;">
+                        <div class="well well-lg text-center" style="margin:10px 0;padding-top: 12px;background-color:transparent;min-height: 58px;">
                             <div id="away" style="display:inline-block;font-weight:bold;font-size:20px;color:red;text-align:right;float: right;"> 0 </div>
                             <div id="home" style="display:inline-block;font-weight:bold;font-size:20px;color:blue;float: left;">0</div><span class="gl" id="textP" style="/* display: inline-block; */"></span> </div>
                         <div class="container text-center" style="margin-top:5px; width: auto;">

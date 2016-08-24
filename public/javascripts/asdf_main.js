@@ -374,7 +374,7 @@
                         });
                         SuffButton = shuffle(SuffButton);
                         [0, 1, 2, 3].forEach(function (my_x) {
-                            $("#buttonP").append('<div class="textboxWidth" style=" float: left;"><button id=b' + my_x + ' class="btn btn-primary btn-lg center-block" style="color:#000;font-size:17px;position: relative; display: block; height:80px;width:85%; padding:0; margin:0 auto;" onclick="my_dis(this)">' + wordOnly(SuffButton[my_x]) + "</button></div>");
+                            $("#buttonP").append('<div class="textboxWidth" style=" float: left;"><button id=b' + my_x + ' class="btn btn-primary btn-lg center-block" style="background-color:#fff;color:#000;font-size:17px;position: relative; display: block; height:80px;width:85%; padding:0; margin:0 auto;" onclick="my_dis(this)">' + wordOnly(SuffButton[my_x]) + "</button></div>");
                         });
                         $("#textP").html("");
                         nxtWhere();
@@ -408,7 +408,7 @@
                 });
                 SuffButton = shuffle(SuffButton);
                 [0, 1, 2, 3].forEach(function (my_x) {
-                    $("#buttonP").append('<div class="textboxWidth" style="float: left;"><button id=b' + my_x + ' class="btn btn-primary btn-lg center-block" style="color:#000;font-size:17px;position: relative; display: block; height:80px;width: 85%;padding: 0; margin:0 auto;" onclick="my_dis(this)">' + wordOnly(SuffButton[my_x]) + "</button></div>");
+                    $("#buttonP").append('<div class="textboxWidth" style="float: left;"><button id=b' + my_x + ' class="btn btn-primary btn-lg center-block" style="background-color:#fff;color:#000;font-size:17px;position: relative; display: block; height:80px;width: 85%;padding: 0; margin:0 auto;" onclick="my_dis(this)">' + wordOnly(SuffButton[my_x]) + "</button></div>");
                 });
                 //$("#textP").append(unshuffled[howMany_del]);
                 $("#textP").append(unshuffled[howMany_del] + " ");
