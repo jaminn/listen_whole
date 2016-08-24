@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
     <script src="/javascripts/bootstrap.min.js"></script>
     <script src="/javascripts/srt__.js"></script>
-    <script language="javascript" type="text/javascript" src="/javascripts/multi_home.js"></script>
     <script>
         var socket = io.connect();
         var room = "<%=room%>"
@@ -441,6 +440,8 @@
                 $("#textP").append(unshuffled[howMany_del] + " ");
                 howMany_del++;
                 if (unshuffled.length == howMany_del) { //전부 맞첬을 경우
+                    var score = parseInt($("#away").html());
+                    socket.emit('score', "away", ++score, quiz_counter);
                     $("#myprogress").addClass("blinkGreen");
                     setTimeout(function () {
                         $("#myprogress").removeClass("blinkGreen");
@@ -598,7 +599,9 @@
                         <div class="progress" style="height: 10px; margin-bottom:10px;">
                             <div id="myprogress" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"> </div>
                         </div>
-                        <div class="well well-lg text-center" style="margin:10px 0;padding-top: 12px; background-color:transparent;"><span class="gl" id="textP"></span></div>
+                        <div class="well well-lg text-center" style="margin:10px 0;padding-top: 12px;background-color:transparent;height: 58px;">
+                            <div id="away" style="display:inline-block;font-weight:bold;font-size:20px;color:red;text-align:right;float: right;"> 0 </div>
+                            <div id="home" style="display:inline-block;font-weight:bold;font-size:20px;color:blue;float: left;">0</div><span class="gl" id="textP" style="/* display: inline-block; */"></span> </div>
                         <div class="container text-center" style="margin-top:5px; width: auto;">
                             <button type="button" id="starter" class="myHide btn btn-warning" style="font-weight:bold;font-size:20px;margin: 30px auto; padding:20px 50px;border-radius:10px;" onclick="lets_start();">시작!</button>
                         </div>
