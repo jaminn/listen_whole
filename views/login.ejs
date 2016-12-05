@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Listen : 로그인</title>
+    <link rel='stylesheet prefetch' href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/login.css"> </head>
+
+<body style="background-color: #91A8D2;">
+    <div class="logmod">
+        <div class="logmod__wrapper"> <a href="/"> <img src="/images/logo.png" class="logmod__close"></a>
+            <div class="logmod__container">
+                <ul class="logmod__tabs">
+                    <li data-tabtar="lgm-2"><a href="#">로그인</a></li>
+                    <li data-tabtar="lgm-1"><a href="#">회원 가입</a></li>
+                </ul>
+                <div class="logmod__tab-wrapper">
+                    <div class="logmod__tab lgm-1">
+                        <div class="logmod__heading" id="alert"> <span class="logmod__heading-subtitle"><strong>지금, 계정을 신규 등록하세요.</strong></span> </div>
+                        <div class="logmod__form">
+                            <form accept-charset="utf-8" action="/reg" class="simform" method="post">
+                                <div class="sminputs">
+                                    <div class="input full">
+                                        <label class="string optional" for="user-name">메일*</label>
+                                        <input class="string optional" name="email" maxlength="255" id="user-email" placeholder="Email" type="email" size="50" /> </div>
+                                </div>
+                                <div class="sminputs">
+                                    <div class="input string optional">
+                                        <label class="string optional" for="user-pw">비밀번호*</label>
+                                        <input class="string optional" name="passwd" maxlength="255" id="user-pw" placeholder="Password" type="password" size="50" />
+                                        <div id="passwd-alert"> </div>
+                                    </div>
+                                    <div class="input string optional">
+                                        <label class="string optional" for="user-nickname">닉네임*</label>
+                                        <input class="string optional" name="nickname" maxlength="255" id="user-nickname" placeholder="홍길동" type="text" size="50" /> </div>
+                                </div>
+                                <div class="simform__actions">
+                                    <button id="submit" onclick="check()" class="sumbit" type="submit">listen_JP 가입하기!</button> <span class="simform__actions-sidetext">당신의 계정을 생성합니다</span> </div>
+                            </form>
+                        </div>
+                        <div class="logmod__alter hidden">
+                            <div class="logmod__alter-container">
+                                <a href="#" class="connect facebook">
+                                    <div class="connect__icon"> <i class="fa fa-facebook"></i> </div>
+                                    <div class="connect__context"> <span><strong>Facebook </strong> 계정으로 가입</span> </div>
+                                </a>
+                                <a href="#" class="connect googleplus">
+                                    <div class="connect__icon"> <i class="fa fa-google-plus"></i> </div>
+                                    <div class="connect__context"> <span><strong>Google+ </strong> 계정으로 가입</span> </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="logmod__tab lgm-2">
+                        <div class="logmod__heading" class="logmod__heading-subtitle"> <span class="logmod__heading-subtitle"><strong>계정 동기화를 위해 로그인해주세요.</strong></span> </div>
+                        <div class="logmod__form">
+                            <form accept-charset="utf-8" action="/login" method="post">
+                                <div class="sminputs">
+                                    <div class="input full">
+                                        <label class="string optional" for="user-name">메일*</label>
+                                        <input class="string optional" name="email" maxlength="255" id="user-email" placeholder="Email" type="email" size="50" /> </div>
+                                </div>
+                                <div class="sminputs">
+                                    <div class="input full">
+                                        <label class="string optional" for="user-pw">비밀번호 *</label>
+                                        <input type="password" name="passwd" class="string optional" maxlength="255" id="user-pw" placeholder="비밀번호" type="email" size="10" /> </div>
+                                </div>
+                                <div class="simform__actions">
+                                    <button class="sumbit" type="submit">로그인</button> <span class="simform__actions-sidetext">List_EN을 시작합니다</span> </div>
+                            </form>
+                        </div>
+                        <div class="logmod__alter hidden">
+                            <div class="logmod__alter-container">
+                                <a href="#" class="connect facebook">
+                                    <div class="connect__icon"> <i class="fa fa-facebook"></i> </div>
+                                    <div class="connect__context"> <span><strong>Facebook </strong>계정으로 로그인</span> </div>
+                                </a>
+                                <a href="#" class="connect googleplus">
+                                    <div class="connect__icon"> <i class="fa fa-google-plus"></i> </div>
+                                    <div class="connect__context"> <span><strong>Google+ </strong>계정으로 로그인</span> </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src="javascripts/login.js"></script>
+    <script>
+        $("#user-email").keyup(function () {
+            var input = $(this).val() + "";
+            if (input != "") {
+                var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+                if (!regExp.test(input)) {
+                    $("#alert").html("<span class='logmod__heading-subtitle' style='color:red'><strong>이메일형식을 맞춰주세요</strong></span>");
+                }
+                else {
+                    $("#alert").html("<span class='logmod__heading-subtitle'><strong>지금, 계정을 신규 등록하세요.</strong></span>");
+                    $("#user-pw").keyup(function () {
+                        var input = $(this).val() + "";
+                        var passwdExp = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,20}$/i;
+                        if (!passwdExp.test(input)) {
+                            $("#alert").html("<span class='logmod__heading-subtitle' style='color:red;border-top-width: 20px;margin-top: 20px;margin-bottom: 20px;line-height: normal;'><strong>비밀번호는 6~20자 대소문자 최소1개의 숫자또는 특수문자조합</strong></span>");
+                        }
+                        else {
+                            $("#user-nickname").keyup(function () {
+                                var input = $(this).val() + "";
+                                var passwdExp = /^.{6,20}$/i;
+                                if (!passwdExp.test(input)) {
+                                    $("#alert").html("<span class='logmod__heading-subtitle' style='color:red;border-top-width: 20px;margin-top: 20px;margin-bottom: 20px;line-height: normal;'><strong>닉네임는 6~20자 이내로 '-'를 제외한 특수문자는 사용하실 수 없습니다.</strong></span>");
+                                }
+                                else {
+                                    $("#alert").html("<span class='logmod__heading-subtitle'><strong>지금, 계정을 신규 등록하세요.</strong></span>");
+                                }
+                            }).keyup();
+                        }
+                    }).keyup();
+                }
+            }
+            else {
+                $("#alert").html("<span class='logmod__heading-subtitle'><strong>지금, 계정을 신규 등록하세요.</strong></span>");
+            }
+        }).keyup();
+    </script>
+</body>
+
+</html>

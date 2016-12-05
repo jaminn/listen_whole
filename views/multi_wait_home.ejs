@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>List_EN</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/javascripts/socket.io-1.4.5.js"></script>
+    <script src="/javascripts/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/srt__.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#starter").hide();
+        });
+        setInterval(function() {
+            if ($("#away").html().includes("id")) {
+                $("#starter").show();
+            }
+        }, 1000);
+        var socket = io.connect();
+        var room = "<%=room%>"
+        var name = "<%=name%>"
+        var vid = "<%=vid%>"
+        var level = "<%=level%>"
+
+        socket.emit('connectRoom', room);
+        socket.emit('sendAlert', name, "/multi_wait_away/" + vid + "/" + room);
+        socket.emit('get');
+        socket.emit('info', "home", name, level);
+
+        socket.on('home', function(homeUser, level) {
+            $('#home').html("<h1>id:" + homeUser + "</h1>" + "<hr/>" + "<h2>level:" + level + "</h2>");
+        });
+
+        socket.on('away', function(awayUser, level) {
+            $('#away').html("<h1>id:" + awayUser + "</h1>" + "<hr/>" + "<h2>level:" + level + "</h2>");
+        });
+
+        socket.on('start', function(name, vid, room){
+          location.replace("/multi_home/"+name+"/"+room+"/vid?vid="+vid);
+        })
+
+        function go() {
+          socket.emit('go', name, vid, room);
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f0f0f0;
+            margin-top: 50px;
+        }
+        /* Remove the navbar's default margin-bottom and rounded borders */
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+            background-color: #1976D2;
+            color: #000;
+            border: none;
+        }
+
+        #login {
+            color: #FFF;
+        }
+
+        #login:hover {
+            color: #000;
+        }
+
+        #ov {
+            color: #FFF;
+        }
+
+        #ov:hover {
+            color: #9d9d9d;
+        }
+
+        #exam {
+            margin-top: 10px;
+            width: 1150px;
+            height: 700px;
+            background-color: #FFF;
+            border-radius: 20px;
+            box-shadow: 0 0 5px 0 #BDBDBD;
+        }
+
+        @media (max-width: 767px) {
+            .gl {
+                font-size: 17px;
+                font-weight: bold;
+                text-decoration: none;
+                text-align: center;
+                border-bottom: 3px solid #AAA;
+                padding-bottom: 6px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand3" href="/" class="pull-left"><img src="/images/Blogo.png" height="30px" /></a>
+                <a class="navbar-brand2" href="#" id="login"><span class="glyphicon glyphicon-log-in"></span> <%=name%>&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            </div>
+            <div class="collapse navbar-collapse " id="myNavbar">
+
+                <ul class="nav navbar-nav">
+                    <li><a href="/media" id="ov"><i class="glyphicon glyphicon-home"></i> &nbsp;홈</a></li>
+                    <li><a href="#" id="ov" onclick="alert('서비스 준비 중입니다')"><i class="glyphicon glyphicon-time"></i> &nbsp;복습하기</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <article>
+        <section>
+            <div class="text-center">
+                <div class="row">
+                    <div class="col-sm-4">.
+                        <div class="thumbnail">
+                            <img src="/uploaded/default.jpg" height="80px" style="border-radius:300px;">
+                            <div class="caption">
+                                <h1>home</h1>
+                                <hr/>
+                                <div id="home">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="thumbnail">
+                            <div id=Awayprofile>
+                                <img data-src="holder.js/300x200" alt="300x200" src="data:image/png;base64,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"
+                                    style="width: 300px; height: 200px;">
+                            </div>
+                            <div class="caption">
+                                <h1>away</h1>
+                                <hr/>
+                                <div id="away">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="well well-lg">
+                    <span class="gl">
+      			<h4 id="wait">사람을기달리는중입니다</h4>
+			</span></div>
+                <button type="button" id="starter" class="btn btn-warning" style="font-weight:bold;font-size:20px;margin: 30px auto; padding:20px 50px;border-radius:10px;" onclick="go()">시작!</button>
+            </div>
+        </section>
+    </article>
+
+</body>
+
+</html>

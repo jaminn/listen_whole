@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>List_EN</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="/javascripts/socket.io-1.4.5.js"></script>
+    <script src="/javascripts/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/srt__.js"></script>
+    <script>
+        function start() {
+            var name = $(':radio[name="blankRadio"]:checked').val();
+            var vid = '<%= vid%>';
+            location.href = "/multi_wait_home/" + vid + "/" + name;
+        }
+    </script>
+    <style>
+        body {
+            margin-top: 70px;
+        }
+        
+        p {
+            font-size: 30px;
+            letter-spacing: -1px;
+            opacity: 0.9;
+        }
+        
+        .gum {
+            display: inline-block;
+        }
+        
+        @media (max-width: 767px) {
+            p {
+                font-size: 10px;
+                letter-spacing: -1px;
+                opacity: 0.9;
+            }
+            .gum {
+                position: fixed !important;
+                left: 88% !important;
+                top: 9% !important;
+            }
+        }
+    </style>
+    <script>
+        var userLeng = <%=user.length%>;
+        var user = "<%=name%>"
+        var j = 0;
+        var users = new Array;
+        var search = false;
+
+        function show() {
+            j = 0;
+            $('#user').html("");
+            if (userLeng == 0) {
+                $('#user').append("<label class='no'><span style='font-size:15px'>저런 로비에있는 유저가없군요</span></label>");
+            }
+            if (userLeng > 0) {
+                <%for(var i = 0; i<user.length; i++){%>
+                <%if(user[i].nickname != name){%>
+                users[j++] = "<%=user[i].nickname%>";
+                <%}%>
+                <%}%>
+                for (var i = 0; i < userLeng; i++) {
+                    if (users[i] != user) {
+                        $('#user').append("<label class='no'><div class='can' style='color:#0080ff;border-top: 1px solid #AAA'><span class='glyphicon glyphicon-user' style='margin-right:15px'></span><span style='font-size:15px'>" + users[i] + "</span><input type='radio' name='blankRadio' id='blankRadio1' value=" + users[i] + " aria-label='...'></div></label>");
+                    }
+                }
+            }
+        }
+        $(document).ready(function () {
+            $('a[data-toggle="tab"]').on('hidden.bs.tab');
+        });
+    </script>
+</head>
+
+<body onload="show()">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                <a class="navbar-brand3" href="/" class="pull-left"><img src="../images/Blogo.png" height="30px" /></a> <a class="navbar-brand2" href="#" id="login"><span class="glyphicon glyphicon-log-in"></span> <%=name%></a> </div>
+            <div class="collapse navbar-collapse " id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="/media" id="ov"><i class="glyphicon glyphicon-home"></i> &nbsp;홈</a></li>
+                    <li><a href="/media" id="ov"><i class="glyphicon glyphicon-time"></i> &nbsp;기록</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <article>
+        <section style="position: absolute;
+    left: 50%;transform: translateX(-50%);-webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%); ">
+            <div class="container"> <img src="http://i.ytimg.com/vi/<%=vid%>/mqdefault.jpg"> </div>
+            <div class="container">
+                <br>
+                <p>평균 별점</p>
+                <h4>[<%=member.name%>]</h4>
+                <p>업로드 날짜</p>
+                <hr>
+                <p>제작자 설명</p>
+                <div>
+                    <%=member.intro%>
+                </div>
+            </div>
+        </section> <a class="btn btn-info" style="padding:10px 20px;height:50px;width:50%;position: absolute;bottom: 0;" data-toggle="modal" data-target="#myModal">친구와 플레이</a> <a href="/stu/vid?vid=<%=vid%>" class="btn btn-info" style="background-color:#fff;padding:10px 20px;color:#3f7fff;position:fixed;height:50px;width:50%;left:50%;position: absolute;bottom: 0;">&nbsp;&nbsp;혼자서 시작&nbsp;&nbsp;</a> </article>
+    <!--모달-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">찾기</h4> </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <input id="find" type="text" class="form-control" placeholder="찾으시려는 유저를 검색하세요."> <span class="input-group-btn"></span> </div>
+                        </div>
+                    </div>
+                    <div id="user"> </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn pull-left" style="display: inline-block;padding:6px 45px;background:#fff;color:#4275ff;border:1px solid #4275ff;" data-dismiss="modal">취소</button>
+                    <button type="button" onclick="start()" class="btn" style="display: inline-block;padding: 6px 15px;background:#4275ff;color:#fff;border:1px solid #4275ff;">친구와 플레이</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $("#find").keyup(function () {
+            var input = $(this).val();
+            if (input != "") {
+                $('#user').html("");
+                for (var i = 0; i < j; i++) {
+                    if (users[i] != user && users[i].includes(input)) {
+                        $('#user').append("<label class='no'><div class='can' style='color:#0080ff;border-top: 1px solid #AAA'><span class='glyphicon glyphicon-user' style='margin-right:15px'></span><span style='font-size:15px'>" + users[i] + "</span><input type='radio' name='blankRadio' id='blankRadio1' value=" + users[i] + " aria-label='...'></div></label>");
+                    }
+                }
+            }
+            else {
+                show();
+            }
+        }).keyup();
+    </script>
+</body>
+
+</html>

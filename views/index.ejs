@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>List_EN</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="/javascripts/socket.io-1.4.5.js"></script>
+    <script src="javascripts/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+    <script src="javascripts/bootstrap.min.js"></script>
+    <script>
+        <%if(typeof(name) !== "undefined"){%>
+
+        function openPage() {
+            $.ajax({
+                url: '/logout'
+                , type: 'POST'
+                , data: {
+                    logout: "false"
+                }
+                , contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
+                , dataType: 'json'
+                , success: function (result) {
+                    if (result) {
+                        // 데이타 성공일때 이벤트 작성
+                    }
+                }
+            });
+        }
+
+        function closePage(event) {
+            $.ajax({
+                url: '/logout'
+                , type: 'POST'
+                , data: {
+                    logout: "true"
+                }
+                , contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
+                , dataType: 'json'
+                , success: function (result) {
+                    if (result) {
+                        // 데이타 성공일때 이벤트 작성
+                    }
+                }
+            });
+        }
+        document.onkeydown = function () {
+            // 윈도우 창이 닫힐 경우
+            if (event.keyCode == 505) {
+                $.ajax({
+                    url: '/logout'
+                    , type: 'POST'
+                    , data: {
+                        logout: true
+                    }
+                    , contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
+                    , dataType: 'json'
+                    , success: function (result) {
+                        if (result) {
+                            // 데이타 성공일때 이벤트 작성
+                        }
+                    }
+                });
+            }
+        }
+        var socket = io.connect();
+        var room = "<%=name%>"
+        socket.emit('home', room);
+        socket.on('alert', function (name, url) {
+            $('#Multi_alert').append("<div class='alert alert-warning'> <strong>Warning!</strong><a href='" + url + "'>" + name + "로부터 멀티신청이왔습니다</a>" + "</div>");
+        });
+        <%}%>
+    </script>
+    <style>
+        h1 {
+            font-family: '굴림', sans-serif;
+            font-weight: bold;
+            font-size: 30px;
+            color: #FFF;
+        }
+        
+        small {
+            font-size: 28px;
+        }
+        
+        p {
+            font-size: 30px;
+            letter-spacing: -1px;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            p {
+                font-size: 28px;
+                letter-spacing: -1px;
+                opacity: 0.9;
+            }
+            h1 {
+                font-family: '굴림', sans-serif;
+                font-weight: bold;
+                font-size: 30px;
+                color: #FFF;
+            }
+        }
+        
+        small {
+            font-size: 20px;
+            font-weight: 300
+        }
+        
+        @media (max-width: 767px) {
+            h1 {
+                font-family: '굴림', sans-serif;
+                font-weight: bold;
+                font-size: 20px;
+                color: #FFF;
+            }
+            p {
+                font-size: 27px;
+                letter-spacing: -1px;
+                opacity: 0.9;
+            }
+            small {
+                font-size: 17px;
+                font-weight: 300
+            }
+        }
+        
+        @media (max-width: 380px) {
+            p {
+                font-size: 23px;
+                letter-spacing: -1px;
+                opacity: 0.9;
+            }
+            small {
+                font-size: 17px;
+                font-weight: 300
+            }
+        }
+        
+        @media (max-width: 321px) {
+            h1 {
+                font-family: '굴림', sans-serif;
+                font-weight: bold;
+                font-size: 17px;
+                color: #FFF;
+            }
+            p {
+                font-size: 20px;
+                letter-spacing: -1px;
+                font-weight: bold;
+                opacity: 0.9;
+            }
+            small {
+                font-size: 15px;
+                font-weight: 300
+            }
+        }
+    </style>
+</head>
+
+<body onload="openPage()" onbeforeunload="closePage(event)">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div style="color: transparent;" class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                <%if(typeof(isLogined) == "undefined"){%> <a class="navbar-brand2" style="padding-left: 0px;padding-right: 15px;padding-bottom: 0px;" href="/login" id="login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                    <%} else if(isLogined){%> <a href="#" style="padding-left: 0px;padding-right: 15px;padding-bottom: 0px;" class="navbar-brand2" id="login" data-placement="left" data-toggle="popover" title='<button type="button" style="font-size:12px;background-color:transparent;border:none" data-toggle="modal" data-target=".bs-example-modal-sm">
+  <span class="glyphicon glyphicon-user"></span> 프로필 설정
+</button>' data-delay='{ "hide": 3000 }'><span class="glyphicon glyphicon-log-in"></span> <%=name%></a>'
+                        <%}else{%> <a class="navbar-brand2" href="/login" id="login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                            <%}%>
+                                <!--<a href="#" style="font-size:12px" data-toggle="modal" data-target="#myModal2"><span class="glyphicon glyphicon-user"></span> 프로필 설정</a>--></div>
+            <div class="collapse navbar-collapse " id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <%if(typeof(isLogined) == "undefined"){%>
+                        <li><a href="/login" id="ov"><i class="glyphicon glyphicon-home"></i> &nbsp;홈</a></li>
+                        <%} else if(isLogined){%>
+                            <li><a href="/media" id="ov"><i class="glyphicon glyphicon-home"></i> &nbsp;홈</a></li>
+                            <%}%>
+                                <li><a href="/media" id="ov"><i class="glyphicon glyphicon-time"></i> &nbsp;기록</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <article>
+        <section>
+            <div class="boc" style="background-color: #3f7fff;margin-top: 50px;">
+                <div id="Multi_alert"></div>
+                <div class="container center-block">
+                    <h1 class="text-center">더 쉽게 동영상으로 만나는 외국어</h1> <img class="center-block" src="/images/Blogo.png" height="50px">
+                    <br/>
+                    <div class="btn-group center-block"> <a class="btn btn-default" href="/media">&nbsp;&nbsp;&nbsp;List_en 시작하기&nbsp;&nbsp;</a>
+                        <br/>
+                        <br/>
+                        <br/> <a class="btn btn-default" style="background-color:#fff; color:#3f7fff;" href="/login">계정이 없으신가요?</a> </div>
+                </div>
+            </div>
+            <div class="boc" style="background-color: #fff;">
+                <div class="container center-block">
+                    <p class="text-center" style="letter-spacing: -1px;">리스닝 향상을 위한 <strong class="text-info">색</strong>다른 기능</p>
+                    <br/> </div>
+                <div class="container2">
+                    <p class="text-left lead" style="font-size:22px">Listen!
+                        <br><small>영상에서 나오는 문장을 듣고, 순서에 맞게<br>올바르게 배열하세요.</small></p> <img src="/images/monitor.png" class="center-block" height="150px">
+                    <br>
+                    <p class="text-left">사전
+                        <br><small>단어의 뜻은 우측의 사전에서 자동으로<br>알려줍니다. 모르는 단어가 나와도 겁먹지 마세요!</small></p>
+                </div>
+            </div>
+            <div class="boc" style="background-color: #dbdbdb;">
+                <div class="container center-block">
+                    <p class="text-center">친구와 함께 즐기세요</p>
+                    <br> <img src="/images/vs.png" class="center-block" height="80px">
+                    <br> </div>
+                <div class="container2">
+                    <p class="text-left" style="font-size:22px;font-weight:bold;"><small>친구와 함께하는 멀티플레이로 누가 더 높은<br>실력을 가지고 있는지 경쟁해보세요.</small></p>
+                </div>
+            </div>
+            <div class="boc" style="background-color: #fff;">
+                <div class="container center-block">
+                    <p class="text-center">언제 어디서나 List_en과 함께</p>
+                </div>
+                <div class="container2"> <img src="/images/smart.png" class="center-block" height="150px">
+                    <p class="text-left" style="font-size:22px;font-weight:bold;"><small>스마트폰으로 접속하여, 언제 어디서든<br>List_en을 즐길 수 있습니다.<br><br>놀러갈때, 심심할때 어디서나 List_en을<br> 즐겨보세요.</small></p>
+                </div>
+            </div>
+        </section>
+    </article>
+    <!--프로필 모달-->
+    <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">님의 프로필 정보</h4> </div>
+                <div class="modal-body center-block text-center"> <img src="/uploaded/defualt.jpg" height="80px" style="border-radius:100px;">
+                    <div style="color:#1976D2;font-size:27px;">Name</div>
+                    <div style="background-color:#1976D2;height:1px;">&nbsp;</div>
+                    <div style="color:#1976D2;font-size:15px;margin-top:4px">Level</div>
+                    <div class="progress" style="margin-top:20px;margin-bottom:0px">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                            <!--ejs-->
+                        </div>
+                    </div>
+                    <div style="color:#1976D2;font-size:15px;">exp</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn pull-left" style="display: inline-block;padding:6px 45px;background:#fff;color:#4275ff;border:1px solid #4275ff;">수정</button>
+                    <button type="button" class="btn" style="display: inline-block;padding: 6px 45px;background:#4275ff;color:#fff;border:1px solid #4275ff;" data-dismiss="modal">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover({
+                content: "<a href='/logout' style='font-size:10px;'><span class='glyphicon glyphicon-log-out'></span> 로그아웃</a>"
+                , html: true
+            });
+        });
+        $('#myModal2').on('shown.bs.modal', function () {
+            $('#myInput').focus()
+        })
+    </script>
+</body>
+
+</html>

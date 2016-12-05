@@ -1,0 +1,4 @@
+Mon, 18 Jul 2016 09:41:38 GMT express-session deprecated undefined resave option; provide resave option at app.js:78:10
+Mon, 18 Jul 2016 09:41:38 GMT express-session deprecated undefined saveUninitialized option; provide saveUninitialized option at app.js:78:10
+Port 3000 is already in use
+error: Forever detected script exited with code: 1

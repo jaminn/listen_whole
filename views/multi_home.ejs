@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>List_EN</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="/javascripts/socket.io-1.4.5.js"></script>
+    <script src="/javascripts/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/srt__.js"></script>
+    <script>
+        var socket = io.connect();
+        var room = "<%=room%>"
+        var name = "<%=name%>"
+        socket.emit('connectRoom', room);
+        socket.on('home', function (score, cnt) {
+            $('#home').html(score);
+            player.seekTo(getPastStart());
+            player.playVideo();
+            allRightBool = true;
+            howMany_del = 0;
+        });
+        socket.on('away', function (score, cnt) {
+            $('#away').html(score);
+            console.log("get cnt:" + cnt + " from away");
+            quiz_counter = cnt;
+            player.seekTo(getPastStart());
+            player.playVideo();
+            allRightBool = true;
+            howMany_del = 0;
+        });
+        ////////////asdf_main.js
+        var tag = document.createElement('script');
+        tag.src = "//www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        var srtF = ""; //전문(원문) 텍스트 파일
+        var parsed_srt = []; //원문 파싱된
+        var quiz_counter = 0; //카운터: 몇번째 시간대 인지
+        var unshuffled; //셔플 안된 단어들
+        var howMany_del = 0; //몇번이나 지웠나?
+        var allRightBool = false; //전부 맞쳤을 경우
+        var playByButton = false; //스타트 버튼으로 재생했는가
+        var HowMany_wrongs = 0; //몇번이나 틀렸나?
+        var wrongsCnt = 0;
+        var time = 0;
+        var wrongWord = "";
+        var vidID; //비디오 아이디
+        var SuffButton = ["apple", "banna", "orange", "kiwi"]; //화면에 표시되는값
+        var srtLast = 0; //srt파싱된것의 마지막 번호
+        var stop4quiz = false;
+        var player;
+        var alpha = 0;
+        $(document).ready(function () {
+            console.log("page ready!");
+            //document.getElementById('player').style.pointerEvents = 'none'; //실사용시 add this line
+        });
+
+        function HtmlDecode(s) {
+            var el = document.createElement("div");
+            el.innerHTML = s;
+            result1 = el.innerText || el.textContent;
+            var el2 = document.createElement("div");
+            el2.innerHTML = result1;
+            result2 = el2.innerText || el2.textContent;
+            return result2;
+        }
+
+        function wordOnly(s) {
+            var sen = s;
+            sen = sen.replace(/\B[_+.,!@#$%^&*();\\/|<>"']+\b/g, "").toLowerCase();
+            sen = sen.replace(/\b[_+.,!@#$%^&*();\\/|<>"']+\B/g, "").toLowerCase();
+            return sen;
+        }
+
+        function getParams() {
+            var param = new Array();
+            var url = decodeURIComponent(location.href);
+            url = decodeURIComponent(url);
+            var params;
+            params = url.substring(url.indexOf('?') + 1, url.length);
+            params = params.split("&");
+            var size = params.length;
+            var key, value;
+            for (var i = 0; i < size; i++) {
+                key = params[i].split("=")[0];
+                value = params[i].split("=")[1];
+                param[key] = value;
+            }
+            return param;
+        }
+        var p = getParams();
+        timer = setInterval(timecnt, 1000);
+
+        function timecnt() {
+            time++;
+        }
+
+        function getSubTry(data, event) {
+            var mytext;
+            var mystart;
+            var myend;
+            [].forEach.call(data.getElementsByTagName('text'), function (val) {
+                mytext = HtmlDecode(val.innerHTML);
+                mystart = val.getAttribute("start") * 1000;
+                myend = mystart + val.getAttribute("dur") * 1000;
+                parsed_srt.push({
+                    text: mytext
+                    , startTime: mystart
+                    , endTime: myend
+                });
+            });
+            srtLast = parsed_srt.length - 1;
+            event.target.cueVideoById({
+                videoId: p['vid']
+            });
+            $("#starter").removeClass("myHide");
+        }
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                playerVars: {
+                    controls: 0 //개발시에는 controls: 2, 실사용시에는 controls: 0 
+                        
+                    , cc_load_policy: 1
+                    , rel: 0
+                    , autohide: 1
+                    , disablekb: 1
+                    , iv_load_policy: 3
+                    , fs: 0
+                    , gl: 'KR'
+                    , hl: 'ko'
+                    , showinfo: 0
+                }
+                , events: {
+                    'onReady': onPlayerReady
+                    , 'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            var request = $.get("/" + p["vid"] + ".srt");
+            request.success(function (data) {
+                srtF = data;
+                parsed_srt = from_srt(srtF, true);
+                srtLast = parsed_srt.length - 1;
+                console.log("youtubeReady");
+                event.target.cueVideoById({
+                    videoId: p['vid']
+                });
+                $("#starter").removeClass("myHide");
+            });
+            request.fail(function () {
+                console.log("자막을 가져오지 못함(자기 컴)");
+                $.ajax({
+                    url: '//video.google.com/timedtext?lang=en&v=' + p['vid']
+                    , success: function (data) {
+                        try {
+                            getSubTry(data, event);
+                        }
+                        catch (e) {
+                            $.ajax({
+                                url: '//video.google.com/timedtext?lang=en-GB&v=' + p['vid']
+                                , success: function (data) {
+                                    try {
+                                        getSubTry(data, event);
+                                    }
+                                    catch (e) {
+                                        console.log(e);
+                                        console.log("자막을 가져오지 못함(유튜브)");
+                                        alert("자막이 없습니다.");
+                                        window.location.href = "/";
+                                    }
+                                }
+                                , error: function () {
+                                    console.log("자막을 가져오지 못함(유튜브)");
+                                    alert("로딩error");
+                                }
+                            });
+                        }
+                    }
+                    , error: function () {
+                        console.log("자막을 가져오지 못함(유튜브)");
+                        alert("로딩error");
+                    }
+                });
+            });
+        }
+
+        function onPlayerStateChange(event) {
+            switch (event.data) {
+            case YT.PlayerState.UNSTARTED:
+                console.log('unstarted');
+                break;
+            case YT.PlayerState.ENDED:
+                console.log('ended');
+                alert("END");
+                window.location.href = "/";
+                break;
+            case YT.PlayerState.PLAYING:
+                if (!playByButton) {
+                    player.stopVideo();
+                    alert("start버튼으로 재생해주세요");
+                }
+                console.log('--playing--');
+                stop4quiz = false;
+                my_timer = setInterval(check_where, 5);
+                $("#buttonP").html(""); //버튼 초기화
+                //$("#textP").html("");  //문장 초기화
+                howMany_del = 0;
+                HowMany_wrongs = 0;
+                $("#hintP").html("<h1>" + "힌트" + "</h1>");
+                $("#life").html("<h1>" + "틀린횟수" + "</h1>");
+                break;
+            case YT.PlayerState.PAUSED:
+                clearInterval(my_timer);
+                console.log('-paused-');
+                break;
+            case YT.PlayerState.BUFFERING: //중요
+                clearInterval(my_timer);
+                console.log('buffering');
+                break;
+            case YT.PlayerState.CUED:
+                console.log('video cued');
+                break;
+            }
+        }
+
+        function lets_start() {
+            player.playVideo();
+            var fn = function () {
+                player.playVideo();
+            }
+            setTimeout(fn, 3000);
+            $("#starter").remove();
+            playByButton = true;
+            my_timer = setInterval(check_where, 10);
+            progress_timer = setInterval(function () {
+                var playerTotalTime = player.getDuration();
+                var playerCurrentTime = Math.round(player.getCurrentTime());
+                var playerTimeDifference = (playerCurrentTime / playerTotalTime) * 100;
+                var playerTimePercent = playerTimeDifference.toFixed(2);
+                //console.log(playerTimePercent + '%');
+                $(".progress-bar").width(playerTimePercent + '%');
+            }, 100);
+        }
+
+        function selected_word(i) {
+            return $("#buttonP").children().eq(i).children().eq(0).get(0);
+        }
+
+        function id2number(id) {
+            return parseInt(id.substr(1));
+        }
+        $(document).keydown(function (e) {
+            switch (e.keyCode) {
+            case 65: //A
+                if (selected_word(0) !== undefined) {
+                    my_dis(selected_word(0));
+                }
+                break;
+            case 83: //S
+                if (selected_word(1) !== undefined) {
+                    my_dis(selected_word(1));
+                }
+                break;
+            case 68: //D
+                if (selected_word(2) !== undefined) {
+                    my_dis(selected_word(2));
+                }
+                break;
+            case 70: //F
+                if (selected_word(3) !== undefined) {
+                    my_dis(selected_word(3));
+                }
+                break;
+            case 37:
+                console.log("you pressed 37(<-) left key");
+                if (quiz_counter !== 0) {
+                    clearInterval(my_timer);
+                    player.seekTo(getPastStart());
+                    prvWhere();
+                    player.playVideo();
+                }
+                break;
+            case 39:
+                console.log("you pressed 39(->) right key");
+                if (quiz_counter < srtLast) {
+                    clearInterval(my_timer);
+                    if (!stop4quiz) {
+                        if (parsed_srt[0].startTime / 1000 > player.getCurrentTime().toFixed(2)) {
+                            player.seekTo(getNowStart());
+                            nxtWhere();
+                        }
+                        else {
+                            player.seekTo(getFutureStart());
+                            nxtWhere();
+                        }
+                    }
+                    player.playVideo();
+                }
+                break;
+            }
+        });
+
+        function replaces(words) {
+            words = words.replace(/<i>/g, "");
+            words = words.replace(/<\/i>/g, "");
+            words = words.replace(/\n/g, " ");
+            words = words.replace(/--/g, "");
+            words = words.replace(/\([\s\S]*?\)/g, "");
+            words = words.replace(/\B[^\w' ]+\B/g, "");
+            words = words.replace(/ +/g, " ");
+            words = words.replace(/^\s*/, '');
+            words = words.replace(/\s*$/, '');
+            return words;
+        }
+
+        function prvWhere() {
+            quiz_counter--;
+        }
+
+        function nxtWhere() {
+            quiz_counter++;
+        }
+
+        function getPast() {
+            return quiz_counter > 0 ? parsed_srt[quiz_counter - 1].endTime / 1000 : 0;
+        }
+
+        function getPastStart() {
+            return quiz_counter > 0 ? parsed_srt[quiz_counter - 1].startTime / 1000 : 0;
+        }
+
+        function getNow() {
+            if (quiz_counter <= srtLast) {
+                return parsed_srt[quiz_counter].endTime / 1000;
+            }
+            else {
+                return player.getDuration() - 0.5;
+            }
+        }
+
+        function getNowStart() {
+            if (quiz_counter <= srtLast) {
+                return parsed_srt[quiz_counter].startTime / 1000;
+            }
+            else {
+                return player.getDuration() - 0.5;
+            }
+        }
+
+        function getFuture() {
+            if (quiz_counter <= srtLast) {
+                return parsed_srt[quiz_counter + 1].endTime / 1000;
+            }
+            else {
+                return player.getDuration() - 0.5;
+            }
+        }
+
+        function getFutureStart() {
+            if (quiz_counter <= srtLast) {
+                return parsed_srt[quiz_counter + 1].startTime / 1000;
+            }
+            else {
+                return player.getDuration() - 0.5;
+            }
+        }
+
+        function check_where() {
+            var How_video_pasted = player.getCurrentTime().toFixed(2);
+            if (!allRightBool) {
+                if (getPast() > How_video_pasted) { //진행시간이 과거 보다 작으면
+                    if (quiz_counter > 0) {
+                        if (!allRightBool) {
+                            console.log(quiz_counter + ": ViewPrv");
+                            prvWhere(); //카운터를 줄인다.
+                        }
+                    }
+                }
+                if (getFuture() < How_video_pasted) { //진행시간이 미래 보다 크면
+                    if (quiz_counter < srtLast) {
+                        console.log(quiz_counter + ": ViewNxt");
+                        nxtWhere(); //카운터를 늘린다.
+                    }
+                }
+                else {
+                    if (getNow() <= How_video_pasted && ("" != wordOnly(replaces(parsed_srt[quiz_counter].text)))) { //진행시간이 미래 보다 작고, 현재보다 크면
+                        console.log("진행 현재보다 큼(멈춤)");
+                        stop4quiz = true;
+                        $("#buttonP").html("");
+                        player.pauseVideo();
+                        unshuffled = parsed_srt[quiz_counter].text;
+                        unshuffled = replaces(unshuffled);
+                        unshuffled = unshuffled.split(" ");
+                        [0, 1, 2, 3].forEach(function (i) {
+                            if (i < unshuffled.length) SuffButton[i] = unshuffled[i % unshuffled.length];
+                        });
+                        SuffButton = shuffle(SuffButton);
+                        [0, 1, 2, 3].forEach(function (my_x) {
+                            $("#buttonP").append('<div class="textboxWidth" style=" float: left;"><button id=b' + my_x + ' class="btn btn-primary btn-lg center-block" style="background-color:#fff;color:#000;font-size:17px;position: relative; display: block; height:80px;width:85%; padding:0; margin:0 auto;" onclick="my_dis(this)">' + wordOnly(SuffButton[my_x]) + "</button></div>");
+                        });
+                        $("#textP").html("");
+                        nxtWhere();
+                        console.log(quiz_counter + ": 새 버튼 생성");
+                    }
+                }
+            }
+            else if (getPast() <= How_video_pasted) {
+                allRightBool = false;
+                if (getPastStart() <= How_video_pasted) { //진행시간이 미래 보다 작고, 현재보다 크면
+                    $("#textP").html(""); // 자막 지우기
+                }
+            }
+        }
+
+        function replay() {
+            console.log(quiz_counter + ":replay가 불려짐");
+            prvWhere();
+            player.seekTo(getNowStart() - alpha);
+            player.playVideo();
+            HowMany_wrongs = 0;
+        }
+
+        function my_dis(my) {
+            if (wordOnly(unshuffled[howMany_del]) == wordOnly(SuffButton[id2number(my.id)])) { //정답일 경우[
+                $("#buttonP").html("");
+                $("#hintP").html("");
+                [0, 1, 2, 3].forEach(function (i) {
+                    if (i < unshuffled.length) SuffButton[i] = unshuffled[(i + howMany_del) % unshuffled.length];
+                });
+                SuffButton = shuffle(SuffButton);
+                [0, 1, 2, 3].forEach(function (my_x) {
+                    $("#buttonP").append('<div class="textboxWidth" style="float: left;"><button id=b' + my_x + ' class="btn btn-primary btn-lg center-block" style="background-color:#fff;color:#000;font-size:17px;position: relative; display: block; height:80px;width: 85%;padding: 0; margin:0 auto;" onclick="my_dis(this)">' + wordOnly(SuffButton[my_x]) + "</button></div>");
+                });
+                //$("#textP").append(unshuffled[howMany_del]);
+                $("#textP").append(unshuffled[howMany_del] + " ");
+                howMany_del++;
+                if (unshuffled.length == howMany_del) { //전부 맞첬을 경우
+                    var score = parseInt($("#away").html());
+                    socket.emit('score', "home", ++score, quiz_counter);
+                    $("#myprogress").addClass("blinkGreen");
+                    setTimeout(function () {
+                        $("#myprogress").removeClass("blinkGreen");
+                    }, 1000);
+                    player.seekTo(getPastStart() - alpha);
+                    player.playVideo();
+                    allRightBool = true;
+                    howMany_del = 0;
+                }
+            }
+            else { //틀릴 경우
+                HowMany_wrongs++;
+                wrongsCnt++;
+                wrongWord += SuffButton[id2number(my.id)] + ",";
+                if (HowMany_wrongs == 3) { //3번 틀리면 다시 시작.
+                    console.log("3번 틀려서 replay를 부름");
+                    $("#myprogress").addClass("blinkRed");
+                    setTimeout(function () {
+                        $("#myprogress").removeClass("blinkRed");
+                    }, 1000);
+                    replay();
+                }
+                else {
+                    [0, 1, 2, 3].forEach(function (i) {
+                        if (wordOnly(unshuffled[howMany_del]) == wordOnly(SuffButton[id2number(selected_word(i).id)])) {
+                            selected_word(i).style.color = "dodgerblue";
+                        }
+                    });
+                    $("#hintP").html("<h1>" + unshuffled[howMany_del] + "</h1>");
+                }
+            }
+        }
+        ////////////asdf_main.js
+    </script>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            margin-top: 0px;
+            overflow-y: hidden;
+            height: 1000px;
+        }
+        /* Remove the navbar's default margin-bottom and rounded borders */
+        
+        .myHide {
+            display: none;
+        }
+        
+        .blinkRed {
+            animation-name: myred;
+            animation-duration: 1s;
+        }
+        
+        @keyframes myred {
+            0% {
+                background-color: #337ab7;
+            }
+            40% {
+                background-color: red;
+            }
+            100% {
+                background-color: #337ab7;
+            }
+        }
+        
+        .blinkGreen {
+            animation-name: mygreen;
+            animation-duration: 1s;
+        }
+        
+        @keyframes mygreen {
+            0% {
+                background-color: #337ab7;
+            }
+            40% {
+                background-color: green;
+            }
+            100% {
+                background-color: #337ab7;
+            }
+        }
+        
+        #exam {
+            margin-top: 10px;
+            width: 1150px;
+            height: 700px;
+            background-color: #FFF;
+            border-radius: 20px;
+            box-shadow: 0 0 5px 0 #BDBDBD;
+        }
+        
+        .gl {
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            border-bottom: 3px solid #AAA;
+            padding-bottom: 1px;
+        }
+        
+        .textboxWidth {
+            width: 25%;
+        }
+        
+        @media (min-width: 1024px) {
+            #well {
+                min-height: 20px;
+                padding: 0 20% 20% 20%;
+                margin-bottom: 0px;
+                background-color: #f5f5f5;
+                border-radius: 4px;
+                -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05)
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .textboxWidth {
+                width: 50%;
+                padding-top: 10px;
+            }
+        }
+        
+        #score {
+            background-color: rgba(0, 0, 0, 0.5);
+            display: fixed;
+            z-index: 2
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                <a class="navbar-brand3" href="/" class="pull-left"><img src="/images/Blogo.png" height="30px" /></a> <a class="navbar-brand2" href="#" id="login"><span class="glyphicon glyphicon-log-in"></span> <%=name%></a> </div>
+            <div class="collapse navbar-collapse " id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="/media" id="ov"><i class="glyphicon glyphicon-home"></i> &nbsp;홈</a></li>
+                    <li><a href="/media" id="ov"><i class="glyphicon glyphicon-time"></i> &nbsp;기록</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <article style="margin-top: 50px;">
+        <section class="center-block">
+            <div id="well" class="text-center center-block">
+                <div>
+                    <div class="text-left">
+                        <div id="score">
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <div id="player" class="embed-responsive-item"></div>
+                            </div>
+                        </div>
+                        <div class="progress" style="height: 10px; margin-bottom:10px;">
+                            <div id="myprogress" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"> </div>
+                        </div>
+                        <div class="well well-lg text-center" style="margin:10px 0;padding-top: 12px;background-color:transparent;min-height: 58px;">
+                            <div id="away" style="display:inline-block;font-weight:bold;font-size:20px;color:red;text-align:right;float: right;"> 0 </div>
+                            <div id="home" style="display:inline-block;font-weight:bold;font-size:20px;color:blue;float: left;">0</div><span class="gl" id="textP" style="/* display: inline-block; */"></span> </div>
+                        <div class="container text-center" style="margin-top:5px; width: auto;">
+                            <button type="button" id="starter" class="myHide btn btn-warning" style="font-weight:bold;font-size:20px;margin: 30px auto; padding:20px 50px;border-radius:10px;" onclick="lets_start();">시작!</button>
+                        </div>
+                    </div>
+                    <div style="margin-top:10px;text-align: justify">
+                        <div class="btn-group" id="buttonP" style="display: block"> </div>
+                    </div>
+                </div>
+        </section>
+    </article>
+    <!--결과 화면-->
+    <div class="modal fade bs-example-modal-sm" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">결과 화면</h4> </div>
+                <div class="modal-body center-block text-center"> <img src="/images/Levelcleared.png" height="30px" style="">
+                    <div class="progress" style="margin-top:20px;margin-bottom:0px">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                            <!--ejs-->
+                        </div>
+                    </div>
+                    <div style="color:#1976D2;font-size:15px;">exp</div>
+                </div>
+                <div class="modal-footer"> <a href="/media" type="button" class="btn" style="display: inline-block;padding: 6px 45px;background:#4275ff;color:#fff;border:1px solid #4275ff;">확인</a> </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $('#myModal3').on('shown.bs.modal', function () {
+        $('#myInput').focus()
+    })
+</script>
+
+</html>

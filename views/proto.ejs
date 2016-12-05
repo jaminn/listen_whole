@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="javascripts/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+    <script src="javascripts/bootstrap.min.js"></script>
+    <script src="javascripts/srt__.js"></script>
+    <script src="javascripts/responsive-voice.js"></script>
+    <script src="javascripts/main.js"></script>
+    <style>
+        body {
+            background-color: #e1e1e1;
+        }
+
+        .btn-lg {
+            margin: 1px;
+        }
+        /* Remove the navbar's default margin-bottom and rounded borders */
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+            background-color: #1976D2;
+            color: #000;
+            border: none;
+            box-shadow: 0 0 4px 6px #BDBDBD;
+        }
+
+        h1 {
+            font-family: Georgia, "Times New Roman", Times, serif;
+            color: #555;
+        }
+
+        #Ho {
+            color: #FFF
+        }
+
+        #Ho:hover {
+            color: #BDBDBD
+        }
+
+        #login {
+            color: #FFF;
+        }
+
+        #login:hover {
+            color: #000;
+        }
+
+        .embed-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            border-top: 85.417323px;
+        }
+
+        .embed-container iframe,
+        .embed-container object,
+        .embed-container embed {
+            top: 85.417323;
+            left: 0;
+            width: 424px;
+            height: 365.480315px;
+            border-left: 29.480315px;
+            border-top: 85.417323px;
+            border-radius: 3px;
+        }
+
+        #exam {
+            margin-top: 10px;
+            width: 1150px;
+            height: 700px;
+            background-color: #FFF;
+            border-radius: 20px;
+            box-shadow: 0 0 5px 0 #BDBDBD;
+        }
+
+        @media (min-width: 1000px) and (max-width: 1300px) {
+            #exam {
+                margin-top: 77.6px;
+                margin-left: 77.6px;
+                width: 1076.125984px;
+                height: 648.188976px;
+                background-color: #FFF;
+                border-radius: 3px;
+            }
+            .embed-container iframe,
+            .embed-container object,
+            .embed-container embed {
+                top: 85.417323;
+                left: 0;
+                width: 624px;
+                height: 365.480315px;
+                border-left: 29.480315px;
+                border-top: 85.417323px;
+                border-radius: 3px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a id="Ho" class="navbar-brand" href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Listen_jp</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" id="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <article>
+        <section>
+            <h1 class="text-center" style="font:bold normal 40px 돋움;margin: 40px 0 20px 0;">
+       <span style="background:#EBEBEB; border-radius: 10px;">노래를 듣고, 가사를 순서에 따라 올바르게 배열하세요</span></h1>
+            <div id="exam" class="container-fluid text-center">
+                <div class="row content">
+                    <div class="col-sm-8 text-left">
+                        <div class="embed-container">
+                            <div id="player"></div>
+                            <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+                        </div>
+
+                        <button type="button" id="starter" class="btn btn-primary btn-lg" onclick="lets_start() ">start</button>
+
+                        <div class="btn-group btn-group-justified" id="buttonP">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </article>
+
+</body>
+
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>List_EN</title>
+    <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="javascripts/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+
+    <script src="javascripts/bootstrap.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <script>
+    var colLeng = <%=col.length%>;
+    var j = 0;
+    var k = 0;
+
+    var names = new Array;
+    var vid = new Array;
+    var search = false;
+    <%for(var i = 0; i<col.length; i++){%>
+        names[j++] = "<%=col[i].name%>";
+        vid[k++] = "<%=col[i].vid%>";
+    <%}%>
+
+    function show() {
+      for (var i = 0; i < colLeng; i++) {
+          $('#demo').append("<a class='no' href='media_ex/"+vid[i]+"'><div class='can media no'><div class='media-left'><img class='media-object' src='http://i.ytimg.com/vi/"+vid[i]+"/mqdefault.jpg' height='100px' width='150px' alt='유투브 영상'></div><div class='media-body' style='color:#000'><h4 class='media-heading'>"+names[i]+"<i class='glyphicon glyphicon-option-vertical pull-right'></i></h4><p>[업로드 날짜]</p><br><p>[별점]</p></div></div></a>");
+      }
+    }
+
+    </script>
+    <style>
+            body {
+            margin-top: 100px;
+        }
+
+        p {
+            font-size: 30px;
+            letter-spacing: -1px;
+            opacity: 0.9;
+        }
+
+        .gum {
+            display: inline-block;
+        }
+
+        @media (max-width: 767px) {
+            p {
+                font-size: 10px;
+                letter-spacing: -1px;
+                opacity: 0.9;
+            }
+            .gum {
+                position: fixed !important;
+                left: 90% !important
+            }
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            $('a[data-toggle="tab"]').on('hidden.bs.tab');
+        });
+    </script>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand3" href="/" class="pull-left"><img src="../images/Blogo.png" height="30px" /></a>
+                <a class="navbar-brand2" href="#" id="login"><span class="glyphicon glyphicon-log-in"></span> <%=name%></a>
+            </div>
+            <div class="collapse navbar-collapse " id="myNavbar">
+                <form id="custom-search-form" class="navbar-form navbar-left center-block" role="search">
+                    <div class="form-group">
+                        <input id="search" type="text" class="form-control" placeholder="동영상 검색">
+                        <button type="submit" class="gum"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </form>
+                <ul class="nav navbar-nav">
+                    <li><a href="/media" id="ov"><i class="glyphicon glyphicon-home"></i> &nbsp;홈</a></li>
+                   <li><a href="/media" id="ov"><i class="glyphicon glyphicon-time"></i> &nbsp;기록</a></li>
+                </ul>
+            </div>
+            <div>
+                <ul id="myTab" class="nav nav-tabs">
+                    <li class="active"><a data-target="#home" id="home-tab" data-toggle="tab">추천 동영상</a></li>
+                    <li class=""><a data-target="#profile" id="profile-tab" data-toggle="tab">&nbsp;&nbsp;&nbsp;&nbsp;기록&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li class="dropdown">
+                        <a data-target="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown">&nbsp;&nbsp;즐찾&nbsp;&nbsp;<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="myTabDrop1-contents">
+                            <li><a data-target="#dropdown1" tabindex="-1" id="dropdown1-tab" data-toggle="tab" aria-controls="dropdown1">목록 1</a></li>
+                            <li><a data-target="#dropdown2" tabindex="-1" id="dropdown2-tab" data-toggle="tab" aria-controls="dropdown2">목록 2</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <article>
+        <section>
+            <div id="myTabContent" class="tab-content">
+
+                <!-- 추천 동영상-->
+                <div class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
+                    <button type="button" class="btn mar" data-toggle="collapse" data-target="#demo"># TED등의 교육영상</button>
+                    <div id="demo" class="collapse in">
+
+                    </div>
+
+                    <button type="button" class="btn mar" data-toggle="collapse" data-target="#demo2"># 팝송</button>
+                    <div id="demo2" class="collapse in"># 팝송</div>
+                </div>
+
+
+                <!-- 기록 -->
+                <div role="tabpanel" class="tab-pane fade" id="profile">
+                    <button type="button" class="btn mar" data-toggle="collapse" data-target="#demo3">날짜</button>
+                    <div id="demo3" class="collapse in">
+                        영상
+                    </div>
+                    <button type="button" class="btn mar" data-toggle="collapse" data-target="#demo4">날짜</button>
+                    <div id="demo4" class="collapse in">영상</div>
+                </div>
+                <!-- 폴더 -->
+                <div role="tabpanel" class="tab-pane fade" id="dropdown1" aria-labelledby="dropdown1-tab">
+                    <p>폴더1-영상</p>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="dropdown2" aria-labelledby="dropdown2-tab">
+                    <p>폴더2-영상</p>
+                </div>
+            </div>
+
+        </section>
+    </article>
+
+    <script>
+      $("#search").keyup(function() {
+          var input = $(this).val();
+          if (input != "") {
+              $('#demo').html("");
+              for (var i = 0; i < j; i++) {
+                  if (names[i].toLowerCase().includes(input)) {
+                    $('#demo').append("<a class='no' href='media_ex/"+vid[i]+"'><div class='can media no'><div class='media-left'><img class='media-object' src='http://i.ytimg.com/vi/"+vid[i]+"/mqdefault.jpg' height='100px' width='150px' alt='유투브 영상'></div><div class='media-body' style='color:#000'><h4 class='media-heading'>"+names[i]+"<i class='glyphicon glyphicon-option-vertical pull-right'></i></h4><p>[업로드 날짜]</p><br><p>[별점]</p></div></div></a>");
+                  }
+              }
+          } else {
+              $('#demo').html("");
+              show();
+          }
+      }).keyup();
+    </script>
+
+</body>
+
+</html>
