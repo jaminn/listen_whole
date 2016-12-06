@@ -27,7 +27,11 @@ var profile = require('./routes/profile');
 var upload = require('./routes/upload');
 var app = express();
 var mongoose = require('mongoose');
+<<<<<<< HEAD
 mongoose.connect('mongodb://rnnwkals1:hi000319@ds119618.mlab.com:19618/listendb');
+=======
+mongoose.connect('mongodb://rnnwkals1:hi000319@ds029655.mlab.com:29655/listendb');
+>>>>>>> 70c65cea9e3c09837e197ac2d25f72c85d9fd862
 var db = mongoose.connection;
 var UserSchema = new mongoose.Schema({
     email: {

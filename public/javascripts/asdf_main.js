@@ -122,7 +122,11 @@
             request.fail(function () {
                 console.log("자막을 가져오지 못함(자기 컴)");
                 $.ajax({
+<<<<<<< HEAD
                     url: 'https://video.google.com/timedtext?lang=en&v=' + p['vid']
+=======
+                    url: 'http://video.google.com/timedtext?lang=en&v=' + p['vid']
+>>>>>>> 70c65cea9e3c09837e197ac2d25f72c85d9fd862
                     , success: function (data) {
                         try {
                             getSubTry(data, event);
